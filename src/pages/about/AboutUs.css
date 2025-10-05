@@ -1,0 +1,97 @@
+/* Custom pseudo-elements for animations */
+.join-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.join-btn:hover::before {
+  left: 100%;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(249,61,102,0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.feature-card:hover::before {
+  left: 100%;
+}
+
+.carousel-image::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: all 0.8s ease;
+  z-index: 1;
+}
+
+.carousel-image::after {
+  content: '';
+  position: absolute;
+  bottom: -100%;
+  right: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: all 0.8s ease;
+  z-index: 1;
+}
+
+.carousel-container:hover .carousel-image::before {
+  top: 100%;
+  left: 100%;
+}
+
+.carousel-container:hover .carousel-image::after {
+  bottom: 100%;
+  right: 100%;
+}
+
+.features-li::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: #f93d66;
+  transition: height 0.3s ease;
+}
+
+.features-li:hover::before {
+  height: 100%;
+}
+
+.stat-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.group:hover .stat-shine {
+  opacity: 1;
+  transform: rotate(45deg) translate(50px, 50px);
+}

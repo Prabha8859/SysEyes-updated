@@ -1,0 +1,33 @@
+/* Heartbeat Effect */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.15);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.15);
+  }
+}
+.animate-heartbeat {
+  animation: heartbeat 1.4s ease-in-out infinite;
+}
+
+/* Fill Animation (fast red water fill) */
+@keyframes fill {
+  0% {
+    y: 29.6;
+    height: 0;
+  }
+  100% {
+    y: 0;
+    height: 29.6;
+  }
+}
+.animate-fill {
+  animation: fill 0.8s ease-in-out infinite alternate; /* ⚡ faster fill */
+}
