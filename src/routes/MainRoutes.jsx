@@ -23,6 +23,7 @@ const UserPlan = lazy(() => import("../pages/UserPlan/UserPlans"));
 const UserProfilePage = lazy(() => import("../pages/profile/UserProfile/UserProfilePage"));
 const BlockPage = lazy(() => import("../pages/blockList/BlockList"))
 const FavoritePage = lazy(() => import("../pages/userSidebar/FavoritesPage"))
+const TermConditionPage = lazy(() => import("../pages/userSidebar/TermConditionPage"))
 
 
 // const ChatPage = lazy(() => import("../pages/profile/Chating/chatpage"));
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       { path: "notifications", element: <NotificationPage /> },
        { path: "profile/:id", element: <UserProfilePage /> },
        { path: "favorites", element: <FavoritePage /> },
+       { path: "/terms", element: <TermConditionPage /> },
 
       
     ],
