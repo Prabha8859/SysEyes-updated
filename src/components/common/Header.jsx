@@ -312,12 +312,19 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("requestedUsers");
     navigate("/login");
   };
 
-  const handleNotificationClick = () => setNotificationOpen(true);
+  const handleNotificationClick = () => {
+    setNotificationOpen(true);
+    closeMenu();
+  };
   const handleCloseNotification = () => setNotificationOpen(false);
-  const handleProfileSidebar = () => setProfileSidebarOpen(true);
+  const handleProfileSidebar = () => {
+    setProfileSidebarOpen(true);
+    closeMenu();
+  };
   const handleCloseProfileSidebar = () => setProfileSidebarOpen(false);
   const handleSearchToggle = () => setSearchOpen(prev => !prev);
   const toggleSubmenu = (index) => setOpenSubmenu(prev => (prev === index ? null : index));
@@ -1406,7 +1413,7 @@ const Header = () => {
                           <Link 
                             to={item.path} 
                             onClick={closeMenu}
-                            className={`menu-item-link block lg:inline-block font-semibold no-underline relative transition-all duration-300 cursor-pointer py-1 px-4 lg:py-1 lg:px-3 text-sm lg:text-xl rounded hover:bg-pink-50 lg:hover:bg-transparent ${
+                            className={`menu-item-link block lg:inline-block font-semibold no-underline relative transition-all duration-300 cursor-pointer py-1 px-4 lg:py-1 lg:px-3 text-sm lg:text-sm rounded hover:bg-pink-50 lg:hover:bg-transparent ${
                               scrolled ? 'text-[#1a004e]' : 'text-pink'
                             }`}
                           >
@@ -1416,7 +1423,7 @@ const Header = () => {
                           <>
                             <span
                               role="button"
-                              className={`menu-item-link block lg:inline-block font-semibold no-underline relative transition-all duration-300 cursor-pointer py-1 px-4 lg:py-1 lg:px-3 text-sm lg:text-xl rounded hover:bg-pink-50 lg:hover:bg-transparent ${
+                              className={`menu-item-link block lg:inline-block font-semibold no-underline relative transition-all duration-300 cursor-pointer py-1 px-4 lg:py-1 lg:px-3 text-sm lg:text-sm rounded hover:bg-pink-50 lg:hover:bg-transparent ${
                                 scrolled ? 'text-[#1a004e]' : 'text-pink'
                               } hover:text-pink-600`}
                               onClick={() => toggleSubmenu(index)}
@@ -1437,7 +1444,7 @@ const Header = () => {
                                   <Link 
                                     to={sub.path} 
                                     onClick={closeMenu}
-                                    className={`block py-3 px-4 no-underline text-2xl transition-all duration-300 hover:bg-pink-600 hover:text-white ${
+                                    className={`block py-3 px-4 no-underline text-sm transition-all duration-300 hover:bg-pink-600 hover:text-white ${
                                       scrolled ? 'text-gray-700' : 'text-[#1a004e]'
                                     }`}
                                   >

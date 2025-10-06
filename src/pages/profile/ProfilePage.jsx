@@ -26,9 +26,6 @@ import defaultimge from "../../assets/images/profile/01.jpg";
 import defaultPhoto from "../../assets/images/profile/02.jpg";
 import DefaultImg from "../../assets/images/profile/default-img.jpg";
 
-
-
-
 import {
   useGetUserProfileQuery,
   useGetUserFriendsListQuery,
@@ -134,15 +131,15 @@ const ProfileHeader = ({
 
   return (
     <div className="relative bg-white mb-0">
-      <div className="relative h-[400px] overflow-hidden">
+      <div className="relative h-[250px] xs:h-[300px] sm:h-[350px] md:h-[450px] overflow-hidden">
         <img
           src={coverImage}
           alt={userData?.full_name || "profile cover"}
-          className="w-full h-full object-cover  opacity-80"
+          className="w-full h-full object-cover opacity-80"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-pink-500/40 to-transparent"></div>
 
-        <button className="absolute top-20 right-2 bg-white/90 text-gray-700 px-2 py-2 rounded-[10px] border-none flex items-center gap-2 cursor-pointer backdrop-blur-[10px] transition-all duration-300 font-medium hover:bg-white hover:-translate-y-0.5 hover:shadow-lg" onClick={handleCoverEditClick}>
+        <button className="absolute top-4 right-2 bg-white/90 text-gray-700 px-2 py-2 rounded-[10px] border-none flex items-center gap-2 cursor-pointer backdrop-blur-[10px] transition-all duration-300 font-medium hover:bg-white hover:-translate-y-0.5 hover:shadow-lg" onClick={handleCoverEditClick}>
           <Camera size={20} />
           {/* <span>Edit Photo</span> */}
         </button>
@@ -153,69 +150,70 @@ const ProfileHeader = ({
           accept="image/*"
           onChange={onCoverImageChange}
         />
+          <div class="relative">
+             <div class="absolute bottom-10 left-0 right-0 px-4 sm:px-[8%] flex items-end justify-start gap-4 flex-wrap mt-32 xs:mt-24 sm:mt-20 md:mt-8">
+              <div className="flex items-end gap-5">
+                <div className="relative">
+                  <img
+                    src={
+                      `https://shyeyes-b.onrender.com/uploads/${userData?.profilePic}` ||
+                      "images/default-img.jpg"
+                    }
+                    onError={(e) => {
+                      e.currentTarget.onerror = null; // prevent infinite loop
+                      e.currentTarget.src = DefaultImg;
+                    }}
+                    alt={userData?.full_name || "Profile Pic"}
+                    className="w-24 h-32 sm:w-40 sm:h-52 rounded-[15px] border-4 border-white object-cover shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
+                  />
+                  <button
+                    className="absolute bottom-2.5 right-2.5 bg-white text-pink-500 p-2 rounded-full border-none cursor-pointer transition-all duration-300 shadow-lg hover:bg-pink-500 hover:text-white hover:scale-110"
+                    onClick={handleProfileCameraClick}
+                  >
+                    <Camera size={16} />
+                  </button>
+                  <input
+                    type="file"
+                    ref={profileFileInputRef}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={onProfileImageChange}
+                  />
+                </div>
 
-        <div className="absolute bottom-5 left-0 right-0 px-[8%] flex justify-between items-end">
-          <div className="flex items-end gap-5">
-            <div className="relative">
-              <img
-                src={
-                  `https://shyeyes-b.onrender.com/uploads/${userData?.profilePic}` ||
-                  "images/default-img.jpg"
-                }
-                onError={(e) => {
-                  e.currentTarget.onerror = null; // prevent infinite loop
-                  e.currentTarget.src = DefaultImg;
-                }}
-                alt={userData?.full_name || "Profile Pic"}
-                className="w-40 h-52 rounded-[15px] border-4 border-white object-cover shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
-              />
-              <button
-                className="absolute bottom-2.5 right-2.5 bg-white text-pink-500 p-2.5 rounded-full border-none cursor-pointer transition-all duration-300 shadow-lg hover:bg-pink-500 hover:text-white hover:scale-110"
-                onClick={handleProfileCameraClick}
-              >
-                <Camera size={16} />
-              </button>
-              <input
-                type="file"
-                ref={profileFileInputRef}
-                className="hidden"
-                accept="image/*"
-                onChange={onProfileImageChange}
-              />
+                <div className="text-white mb-2.5 text-left">
+                  <h1 className="text-3xl sm:text-4xl font-bold text-black">
+                    {userData?.Name?.firstName || userData?.name || "William Smith"}
+                    <span> {userData?.Name?.lastName || ""}</span>
+                  </h1>
+                  <p className="text-[1rem] sm:text-[1.1rem] opacity-90 text-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">Active 2 Minutes Ago</p>
+                  <p
+                    className="text-[20px] sm:text-[25px] font-bold flex gap-[5px] items-center justify-start"
+                  >
+                    <span>
+                      <ThumbsUp size={22} />
+                    </span>
+                    <span>{userData?.likeCount}</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="ml-auto flex gap-3">
+                <Link to="/edit-profile">
+                  <button className="px-4 py-2 sm:px-5 sm:py-3 rounded-xl border-none cursor-pointer flex items-center gap-2 font-semibold transition-all duration-300 text-[14px] bg-white/20 text-white backdrop-blur-[10px] border border-white/30 hover:bg-white/30 hover:-translate-y-0.5">
+                    <span>Edit Profile</span>
+                  </button>
+                </Link>
+
+                <button
+                  onClick={onPrivateMessage}
+                  className="px-4 py-2 sm:px-5 sm:py-3 rounded-xl border-none cursor-pointer flex items-center gap-2 font-semibold transition-all duration-300 text-[14px] bg-white/20 text-white backdrop-blur-[10px] border border-white/30 hover:bg-white/30 hover:-translate-y-0.5"
+                >
+                  <MessageCircle size={18} />
+                  <span>Message</span>
+                </button>
+              </div>
             </div>
-
-            <div className="text-white mb-2.5">
-              <h1 className="text-4xl font-bold text-black">
-                {userData?.Name?.firstName || userData?.name || "William Smith"}
-                <span> {userData?.Name?.lastName || ""}</span>
-              </h1>
-              <p className="text-[1.1rem] opacity-90 text-shadow-[0_1px_4px_rgba(0,0,0,0.2)]">Active 2 Minutes Ago</p>
-              <p
-                className="text-[25px] font-bold flex gap-[5px] items-center"
-              >
-                <span>
-                  <ThumbsUp size={22} />
-                </span>
-                <span>{userData?.likeCount}</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-3 mb-2.5">
-            <Link to="/edit-profile">
-              <button className="px-5 py-3 rounded-xl border-none cursor-pointer flex items-center gap-2 font-semibold transition-all duration-300 text-[14px] bg-white/20 text-white backdrop-blur-[10px] border border-white/30 hover:bg-white/30 hover:-translate-y-0.5">
-                <span>Edit Profile</span>
-              </button>
-            </Link>
-
-            <button
-              onClick={onPrivateMessage}
-              className="px-5 py-3 rounded-xl border-none cursor-pointer flex items-center gap-2 font-semibold transition-all duration-300 text-[14px] bg-white/20 text-white backdrop-blur-[10px] border border-white/30 hover:bg-white/30 hover:-translate-y-0.5"
-            >
-              <MessageCircle size={18} />
-              <span>Message</span>
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -233,28 +231,28 @@ const AddFriendsPopup = ({isOpen, onClose}) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] animate-fadeIn" onClick={onClose}>
-      <div className="bg-white rounded-[15px] p-[25px] w-[500px] max-h-[600px] overflow-y-auto animate-slideInUp shadow-[0_20px_40px_rgba(0,0,0,0.15)]" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white rounded-[15px] p-[15px] sm:p-[25px] w-[90%] sm:w-[500px] max-h-[80vh] sm:max-h-[600px] overflow-y-auto animate-slideInUp shadow-[0_20px_40px_rgba(0,0,0,0.15)]" onClick={(e) => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-5 pb-[15px] border-b border-gray-200">
-          <h3 className="text-xl font-bold text-gray-800">Add Friends</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-gray-800">Add Friends</h3>
           <button onClick={onClose} className="bg-none border-none text-gray-500 cursor-pointer p-2 rounded-full transition-all duration-300 hover:bg-gray-100 hover:text-gray-700">
             <X size={20} />
           </button>
         </div>
         <div className="flex flex-col gap-[15px]">
           {suggestedFriends.map((friend) => (
-            <div key={friend.id} className="flex items-center justify-between p-[0px_15px] bg-gray-50 rounded-xl transition-all duration-300 hover:bg-gray-100">
+            <div key={friend.id} className="flex items-center justify-between p-[10px] sm:p-[0px_15px] bg-gray-50 rounded-xl transition-all duration-300 hover:bg-gray-100">
               <div className="flex items-center gap-4">
                 <img
                   src={friend.image}
                   alt={friend.name}
-                  className="w-[50px] h-[50px] rounded-full object-cover border-2 border-white shadow-[0_2px_8px_rgba(0,0,0,0.1)]"
+                  className="w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] rounded-full object-cover border-2 border-white shadow-[0_2px_8px_rgba(0,0,0,0.1)]"
                 />
                 <div>
-                  <h4 className="font-semibold text-gray-800 text-base mb-0.5">{friend.name}</h4>
-                  <p className="text-sm text-gray-500 mb-0">{friend.mutualFriends}</p>
+                  <h4 className="font-semibold text-gray-800 text-sm sm:text-base mb-0.5">{friend.name}</h4>
+                  <p className="text-xs sm:text-sm text-gray-500 mb-0">{friend.mutualFriends}</p>
                 </div>
               </div>
-              <button className="bg-pink-500 text-white px-4 py-2 rounded-lg border-none cursor-pointer text-sm font-semibold transition-all duration-300 hover:bg-pink-600 hover:-translate-y-0.5">Add Friend</button>
+              <button className="bg-pink-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg border-none cursor-pointer text-xs sm:text-sm font-semibold transition-all duration-300 hover:bg-pink-600 hover:-translate-y-0.5">Add Friend</button>
             </div>
           ))}
         </div>
@@ -327,16 +325,16 @@ const ChatBox = ({isOpen, onClose, userData}) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed right-5 bottom-5 w-[350px] bg-white rounded-[15px] shadow-[0_10px_30px_rgba(0,0,0,0.15)] z-[1000] animate-slideInRight overflow-hidden">
-      <div className="bg-gradient-to-r from-pink-500 to-pink-400 text-white p-[15px_20px] flex justify-between items-center">
+    <div className="fixed right-2 bottom-2 sm:right-5 sm:bottom-5 w-[90%] sm:w-[350px] bg-white rounded-[15px] shadow-[0_10px_30px_rgba(0,0,0,0.15)] z-[1000] animate-slideInRight overflow-hidden">
+      <div className="bg-gradient-to-r from-pink-500 to-pink-400 text-white p-[10px_15px] sm:p-[15px_20px] flex justify-between items-center">
         <div className="flex items-center gap-3">
           <img
             src={userData.profilePic || defaultAvatar}
             alt="Profile"
-            className="w-10 h-10 rounded-full border-2 border-white object-cover"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white object-cover"
           />
           <div>
-            <h4 className="font-semibold text-base mb-0">
+            <h4 className="font-semibold text-sm sm:text-base mb-0">
               {userData?.name || "William Smith"}
             </h4>
             <p className="text-xs opacity-90 mb-0">Online</p>
@@ -347,12 +345,12 @@ const ChatBox = ({isOpen, onClose, userData}) => {
         </button>
       </div>
 
-      <div className="h-[300px] overflow-y-auto p-5 bg-gray-50">
+      <div className="h-[250px] sm:h-[300px] overflow-y-auto p-3 sm:p-5 bg-gray-50">
         <div className="flex flex-col gap-3">
           {messages.map((msg) => (
             <div key={msg.id} className={`flex max-w-[80%] ${msg.sender === 'received' ? 'justify-start' : 'justify-end ml-auto'}`}>
-              <div className={`p-[10px_15px] rounded-[18px] shadow-[0_2px_8px_rgba(0,0,0,0.1)] max-w-full ${msg.sender === 'received' ? 'bg-white text-gray-800' : 'bg-pink-500 text-white'}`}>
-                <p className="mb-0 text-sm leading-tight">{msg.text}</p>
+              <div className={`p-[8px_12px] sm:p-[10px_15px] rounded-[18px] shadow-[0_2px_8px_rgba(0,0,0,0.1)] max-w-full ${msg.sender === 'received' ? 'bg-white text-gray-800' : 'bg-pink-500 text-white'}`}>
+                <p className="mb-0 text-xs sm:text-sm leading-tight">{msg.text}</p>
                 <p className="text-xs opacity-70 mt-1 mb-0">{msg.time}</p>
               </div>
             </div>
@@ -360,15 +358,15 @@ const ChatBox = ({isOpen, onClose, userData}) => {
         </div>
       </div>
 
-      <div className="p-[15px_20px] border-t border-gray-200 bg-white">
-        <div className="flex gap-[10px]">
+      <div className="p-[10px_15px] sm:p-[15px_20px] border-t border-gray-200 bg-white">
+        <div className="flex gap-2">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type a message..."
-            className="flex-1 border border-gray-300 rounded-[20px] px-[10px_15px] text-sm outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]"
+            className="flex-1 border border-gray-300 rounded-[20px] px-[10px] text-sm outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]"
           />
           <button onClick={sendMessage} className="bg-pink-500 text-white rounded-full p-[10px] border-none cursor-pointer transition-all duration-300 min-w-[40px] h-10 flex items-center justify-center hover:bg-pink-600 hover:scale-105">
             <Send size={16} />
@@ -469,11 +467,11 @@ const ActivityTab = ({userData}) => {
   const renderPersonalContent = () => (
     <div className="flex flex-col gap-5">
       {filteredPosts.map((post) => (
-        <div key={post.id} className="bg-white rounded-[15px] p-[25px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 cursor-pointer">
+        <div key={post.id} className="bg-white rounded-[15px] p-[15px] sm:p-[25px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 cursor-pointer">
           <div className="flex items-center gap-3 mb-[15px] relative">
-            <img src={post.avatar} alt="Profile" className="w-12 h-12 rounded-full object-cover border-2 border-gray-100" />
+            <img src={post.avatar} alt="Profile" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-gray-100" />
             <div className="flex-grow">
-              <h4 className="font-semibold text-gray-900 mb-0">{post.author}</h4>
+              <h4 className="font-semibold text-gray-900 mb-0 text-sm sm:text-base">{post.author}</h4>
               <div className="flex items-center gap-2 mt-0.5">
                 <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-xl">Public</span>
                 <span className="text-xs text-gray-400">{post.time}</span>
@@ -481,13 +479,13 @@ const ActivityTab = ({userData}) => {
             </div>
           </div>
 
-          <div className="my-[15px] leading-relaxed text-gray-700">
+          <div className="my-[15px] leading-relaxed text-gray-700 text-sm sm:text-base">
             <p>{post.text}</p>
 
             {post.images.length > 0 && (
               <div
                 className={
-                  post.images.length > 1 ? "grid grid-cols-2 gap-[10px] my-[15px]" : "my-[15px]"
+                  post.images.length > 1 ? "grid grid-cols-1 sm:grid-cols-2 gap-[10px] my-[15px]" : "my-[15px]"
                 }
               >
                 {post.images.map((img, idx) => (
@@ -497,8 +495,8 @@ const ActivityTab = ({userData}) => {
                     alt="Post"
                     className={
                       post.images.length > 1
-                        ? "w-full h-[200px] object-cover rounded-[10px]"
-                        : "w-full h-[300px] object-cover rounded-[10px]"
+                        ? "w-full h-[150px] sm:h-[200px] object-cover rounded-[10px]"
+                        : "w-full h-[200px] sm:h-[300px] object-cover rounded-[10px]"
                     }
                   />
                 ))}
@@ -507,8 +505,8 @@ const ActivityTab = ({userData}) => {
           </div>
 
           <div className="mt-5">
-            <div className="flex justify-between items-center py-3 border-t border-b border-gray-100 my-[15px]">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row justify-between items-center py-3 border-t border-b border-gray-100 my-[15px]">
+              <div className="flex items-center gap-2 mb-2 sm:mb-0">
                 <span className="text-sm">👍 ❤️ 😍</span>
                 <span className="text-sm text-gray-500">
                   You and {post.likes} others like this
@@ -519,7 +517,7 @@ const ActivityTab = ({userData}) => {
               </span>
             </div>
 
-            <div className="flex gap-[30px]">
+            <div className="flex flex-col sm:flex-row gap-[10px] sm:gap-[30px]">
               <button className="bg-none border-none text-gray-500 flex items-center gap-2 cursor-pointer p-[8px_12px] rounded-lg transition-all duration-300 hover:bg-gray-100 hover:text-gray-700">
                 <Heart size={18} />
                 <span>Like</span>
@@ -545,22 +543,22 @@ const ActivityTab = ({userData}) => {
 
       {/* Load More Button */}
       <div className="text-center mt-[30px]">
-        <button className="bg-pink-500 text-white border-none px-[30px] py-3 rounded-[25px] font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_12px_rgba(236,72,153,0.2)] hover:bg-pink-600 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(236,72,153,0.3)]">Load More Posts</button>
+        <button className="bg-pink-500 text-white border-none px-[20px] sm:px-[30px] py-3 rounded-[25px] font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_12px_rgba(236,72,153,0.2)] hover:bg-pink-600 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(236,72,153,0.3)]">Load More Posts</button>
       </div>
     </div>
   );
 
   const renderMentionsContent = () => (
     <div className="mentions-content">
-      <div className="bg-white rounded-[15px] p-[25px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
+      <div className="bg-white rounded-[15px] p-[15px] sm:p-[25px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
         <div className="flex items-center gap-3 mb-[15px] relative">
           <img
             src={mockFriends[1].image}
             alt="Profile"
-            className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-gray-100"
           />
           <div className="flex-grow">
-            <h4 className="font-semibold text-gray-900 mb-0">Andrea Guido</h4>
+            <h4 className="font-semibold text-gray-900 mb-0 text-sm sm:text-base">Andrea Guido</h4>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-xl">Public</span>
               <span className="text-xs text-gray-400">1 Hour Ago</span>
@@ -568,7 +566,7 @@ const ActivityTab = ({userData}) => {
           </div>
         </div>
 
-        <div className="my-[15px] leading-relaxed text-gray-700">
+        <div className="my-[15px] leading-relaxed text-gray-700 text-sm sm:text-base">
           <p>
             Had a great time with{" "}
             <span className="text-pink-500 font-semibold">
@@ -580,8 +578,8 @@ const ActivityTab = ({userData}) => {
         </div>
 
         <div className="mt-5">
-          <div className="flex justify-between items-center py-3 border-t border-b border-gray-100 my-[15px]">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row justify-between items-center py-3 border-t border-b border-gray-100 my-[15px]">
+            <div className="flex items-center gap-2 mb-2 sm:mb-0">
               <span className="text-sm">👍 ❤️</span>
               <span className="text-sm text-gray-500">
                 You and 45 others like this
@@ -592,7 +590,7 @@ const ActivityTab = ({userData}) => {
             </span>
           </div>
 
-          <div className="flex gap-[30px]">
+          <div className="flex flex-col sm:flex-row gap-[10px] sm:gap-[30px]">
             <button className="bg-none border-none text-gray-500 flex items-center gap-2 cursor-pointer p-[8px_12px] rounded-lg transition-all duration-300 hover:bg-gray-100 hover:text-gray-700">
               <Heart size={18} />
               <span>Like</span>
@@ -613,15 +611,15 @@ const ActivityTab = ({userData}) => {
 
   const renderFavoritesContent = () => (
     <div className="favorites-content">
-      <div className="bg-gradient-to-br from-amber-50 to-amber-200 border-amber-400 bg-white rounded-[15px] p-[25px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
+      <div className="bg-gradient-to-br from-amber-50 to-amber-200 border-amber-400 bg-white rounded-[15px] p-[15px] sm:p-[25px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
         <div className="flex items-center gap-3 mb-[15px] relative">
           <img
             src={userData?.image || defaultAvatar}
             alt="Profile"
-            className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-gray-100"
           />
           <div className="flex-grow">
-            <h4 className="font-semibold text-gray-900 mb-0">
+            <h4 className="font-semibold text-gray-900 mb-0 text-sm sm:text-base">
               {userData?.name || "William Smith"}
             </h4>
             <div className="flex items-center gap-2 mt-0.5">
@@ -635,7 +633,7 @@ const ActivityTab = ({userData}) => {
           </div>
         </div>
 
-        <div className="my-[15px] leading-relaxed text-gray-700">
+        <div className="my-[15px] leading-relaxed text-gray-700 text-sm sm:text-base">
           <p>
             This is one of my favorite memories! Sharing some beautiful moments
             from my recent trip to the mountains. The sunset was absolutely
@@ -646,14 +644,14 @@ const ActivityTab = ({userData}) => {
             <img
               src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop"
               alt="Mountain sunset"
-              className="w-full h-[300px] object-cover rounded-[10px]"
+              className="w-full h-[200px] sm:h-[300px] object-cover rounded-[10px]"
             />
           </div>
         </div>
 
         <div className="mt-5">
-          <div className="flex justify-between items-center py-3 border-t border-b border-gray-100 my-[15px]">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row justify-between items-center py-3 border-t border-b border-gray-100 my-[15px]">
+            <div className="flex items-center gap-2 mb-2 sm:mb-0">
               <span className="text-sm">👍 ❤️ 😍 🔥</span>
               <span className="text-sm text-gray-500">
                 Sarah, Mike and 152 others like this
@@ -664,7 +662,7 @@ const ActivityTab = ({userData}) => {
             </span>
           </div>
 
-          <div className="flex gap-[30px]">
+          <div className="flex flex-col sm:flex-row gap-[10px] sm:gap-[30px]">
             <button className="bg-none border-none text-amber-500 flex items-center gap-2 cursor-pointer p-[8px_12px] rounded-lg transition-all duration-300 hover:bg-gray-100 hover:text-amber-600">
               <Heart size={18} />
               <span>Like</span>
@@ -697,32 +695,32 @@ const ActivityTab = ({userData}) => {
   };
 
   return (
-    <div className="bg-transparent">
-      <div className="grid grid-cols-[1fr_320px] gap-[30px]">
+    <div className="bg-transparent pt-4 sm:pt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-[20px] sm:gap-[30px]">
         <div className="flex flex-col gap-5">
           {/* Activity Sub Navigation */}
-          <div className="bg-white p-[15px_20px] rounded-[15px] flex items-center gap-[10px] flex-wrap shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+          <div className="bg-white p-[10px_15px] sm:p-[15px_20px] rounded-[15px] flex flex-wrap items-center gap-[10px] shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
             <button
-              className={`bg-transparent border-none text-gray-800 px-4 py-2 rounded-lg cursor-pointer font-medium transition-all duration-300 hover:bg-pink-50 hover:text-pink-500 ${activeSubTab === "personal" ? "bg-pink-500 text-pink-600" : ""}`}
+              className={`bg-transparent border-none text-gray-800 px-3 py-2 sm:px-4 sm:py-2 rounded-lg cursor-pointer font-medium transition-all duration-300 hover:bg-pink-50 hover:text-pink-500 ${activeSubTab === "personal" ? "bg-pink-500 text-pink-600" : ""}`}
               onClick={() => setActiveSubTab("personal")}
             >
               Personal
             </button>
             <button
-              className={`bg-transparent border-none text-gray-500 px-4 py-2 rounded-lg cursor-pointer font-medium transition-all duration-300 hover:bg-pink-50 hover:text-pink-500 ${activeSubTab === "mentions" ? "bg-pink-500 text-pink-600" : ""}`}
+              className={`bg-transparent border-none text-gray-500 px-3 py-2 sm:px-4 sm:py-2 rounded-lg cursor-pointer font-medium transition-all duration-300 hover:bg-pink-50 hover:text-pink-500 ${activeSubTab === "mentions" ? "bg-pink-500 text-pink-600" : ""}`}
               onClick={() => setActiveSubTab("mentions")}
             >
               Mentions
             </button>
             <button
-              className={`bg-transparent border-none text-gray-500 px-4 py-2 rounded-lg cursor-pointer font-medium transition-all duration-300 hover:bg-pink-50 hover:text-pink-500 ${activeSubTab === "favorites" ? "bg-pink-500 text-pink-600" : ""}`}
+              className={`bg-transparent border-none text-gray-500 px-3 py-2 sm:px-4 sm:py-2 rounded-lg cursor-pointer font-medium transition-all duration-300 hover:bg-pink-50 hover:text-pink-500 ${activeSubTab === "favorites" ? "bg-pink-500 text-pink-600" : ""}`}
               onClick={() => setActiveSubTab("favorites")}
             >
               Favorites
             </button>
             <div className="ml-auto">
               <select
-                className="bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded-lg cursor-pointer"
+                className="bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded-lg cursor-pointer text-sm"
                 value={filterOption}
                 onChange={handleFilterChange}
               >
@@ -736,12 +734,12 @@ const ActivityTab = ({userData}) => {
 
           {/* Post Creation - Only show for personal tab */}
           {activeSubTab === "personal" && (
-            <div className="bg-white rounded-[15px] p-5 shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-              <div className="flex gap-[15px]">
+            <div className="bg-white rounded-[15px] p-4 sm:p-5 shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
+              <div className="flex gap-[10px] sm:gap-[15px]">
                 <img
                   src={userData?.image || defaultAvatar}
                   alt="Profile"
-                  className="w-12 h-12 rounded-full object-cover border-2 border-gray-100"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-gray-100"
                 />
                 <div className="flex-1">
                   <div className="mb-[10px]">
@@ -749,13 +747,13 @@ const ActivityTab = ({userData}) => {
                   </div>
                   <textarea
                     placeholder="What's on your mind?"
-                    className="w-full bg-transparent border-none text-gray-700 text-base resize-none outline-none min-h-[80px]"
+                    className="w-full bg-transparent border-none text-gray-700 text-sm sm:text-base resize-none outline-none min-h-[60px] sm:min-h-[80px]"
                     rows="3"
                     value={postText}
                     onChange={(e) => setPostText(e.target.value)}
                   />
-                  <div className="flex justify-between items-center mt-[15px] pt-[15px] border-t border-gray-100">
-                    <div className="flex gap-5">
+                  <div className="flex flex-col sm:flex-row justify-between items-center mt-[15px] pt-[15px] border-t border-gray-100 gap-3 sm:gap-0">
+                    <div className="flex flex-wrap gap-3 sm:gap-5">
                       <button
                         className="bg-none border-none text-gray-500 flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg transition-all duration-300 hover:bg-gray-100 hover:text-gray-700"
                         onClick={() => handleFileUpload("text")}
@@ -779,7 +777,7 @@ const ActivityTab = ({userData}) => {
                       </button>
                     </div>
                     <button
-                      className="bg-pink-500 text-white border-none px-5 py-2.5 rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:bg-pink-600 hover:-translate-y-0.5"
+                      className="bg-pink-500 text-white border-none px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg font-semibold cursor-pointer transition-all duration-300 hover:bg-pink-600 hover:-translate-y-0.5"
                       onClick={handlePostSubmit}
                     >
                       POST
@@ -828,16 +826,16 @@ const ActivityTab = ({userData}) => {
 // Profile Tab Component
 const ProfileTab = ({userData}) => {
   return (
-    <div className="bg-transparent">
-      <div className="grid grid-cols-[1fr_320px] gap-[30px]">
+    <div className="bg-transparent pt-4 sm:pt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-[20px] sm:gap-[30px]">
         <div className="flex flex-col gap-5">
           {/* Base Info Card */}
           <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-            <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[15px_25px]">
+            <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[10px_20px] sm:p-[15px_25px]">
               <h6 className="text-base font-semibold mb-0">Basic Information</h6>
             </div>
-            <div className="p-[25px]">
-              <div className="flex flex-col gap-3">
+            <div className="p-[15px] sm:p-[25px]">
+              <div className="flex flex-col gap-3 text-sm sm:text-base">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                   <span className="font-medium text-gray-500">Name</span>
                   <span className="text-gray-800 font-medium">
@@ -868,11 +866,11 @@ const ProfileTab = ({userData}) => {
 
           {/* About Me Card */}
           <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-            <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[15px_25px]">
+            <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[10px_20px] sm:p-[15px_25px]">
               <h6 className="text-base font-semibold mb-0">About Me</h6>
             </div>
-            <div className="p-[25px]">
-              <p className="text-gray-600 leading-[1.7] text-[15px]">
+            <div className="p-[15px] sm:p-[25px]">
+              <p className="text-gray-600 leading-[1.7] text-[14px] sm:text-[15px]">
                 Passionate about technology, travel, and connecting with people
                 from around the world. I love exploring new places, trying
                 different cuisines, and sharing experiences with friends. Always
@@ -883,11 +881,11 @@ const ProfileTab = ({userData}) => {
 
           {/* Interests Card */}
           <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-            <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[15px_25px]">
+            <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[10px_20px] sm:p-[15px_25px]">
               <h6 className="text-base font-semibold mb-0">Interests & Hobbies</h6>
             </div>
-            <div className="p-[25px]">
-              <div className="flex flex-col gap-3">
+            <div className="p-[15px] sm:p-[25px]">
+              <div className="flex flex-col gap-3 text-sm sm:text-base">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                   <span className="font-medium text-gray-500">Hobbies</span>
                   <span className="text-gray-800 font-medium">
@@ -1054,17 +1052,17 @@ const FriendsTab = () => {
   if (!allFriendsList.length) return <p>No friends found.</p>;
 
   return (
-    <div className="bg-transparent py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="bg-transparent py-4 sm:py-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {allFriendsList.map((friend) => (
-            <div key={friend?.userId} className="group relative bg-white rounded-3xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-[310px]"
+            <div key={friend?.userId} className="group relative bg-white rounded-3xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-[280px] sm:h-[310px]"
              ref={activeDropdown === friend?.userId ? openCardRef : null}>
               <div className="relative">
                 <img
                   src={`https://shyeyes-b.onrender.com/uploads/${friend?.profilePic}`}
                   alt={friend?.name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-40 sm:h-48 object-cover"
                   onError={(e) => {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = DefaultImg;
@@ -1102,24 +1100,24 @@ const FriendsTab = () => {
                 )}
               </div>
 
-              <div className="px-5 text-center">
-                <h6 className="font-bold text-lg text-gray-900 mb-1">{friend?.name}</h6>
-                <p className="text-sm text-gray-600">Active {friend?.active}</p>
+              <div className="px-4 sm:px-5 text-center">
+                <h6 className="font-bold text-base sm:text-lg text-gray-900 mb-1">{friend?.name}</h6>
+                <p className="text-xs sm:text-sm text-gray-600">Active {friend?.active}</p>
 
-               <div className="flex justify-center gap-4 mt-2">
+               <div className="flex justify-center gap-3 sm:gap-4 mt-2">
                   <Link to="/pricing-plan">
-                    <button className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-gray-500 text-white hover:bg-pink-500 transition-all duration-300 shadow-sm hover:shadow-md">
-                      <PhoneCall size={20} />
+                    <button className="cursor-pointer w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-500 text-white hover:bg-pink-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                      <PhoneCall size={18} sm:size={20} />
                     </button>
                   </Link>
                   <Link to="/chat">
-                    <button className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-gray-500 text-white hover:bg-pink-500 transition-all duration-300 shadow-sm hover:shadow-md">
-                      <MessageCircle size={20} />
+                    <button className="cursor-pointer w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-500 text-white hover:bg-pink-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                      <MessageCircle size={18} sm:size={20} />
                     </button>
                   </Link>
                   <Link to="/pricing-plan">
-                    <button className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-gray-500 text-white hover:bg-pink-500 transition-all duration-300 shadow-sm hover:shadow-md">
-                      <Video size={20} />
+                    <button className="cursor-pointer w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-500 text-white hover:bg-pink-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                      <Video size={18} sm:size={20} />
                     </button>
                   </Link>
                 </div>
@@ -1322,18 +1320,18 @@ const PhotosTab = ({photos}) => {
   };
 
   return (
-    <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-      <div className="flex justify-between bg-gradient-to-r from-pink-500 to-pink-300 text-white p-5 text-center">
-        <h2 className="text-xl font-bold mb-0">Photo Gallery</h2>
+    <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 pt-4 sm:pt-6">
+      <div className="flex flex-col sm:flex-row justify-between bg-gradient-to-r from-pink-500 to-pink-300 text-white p-4 sm:p-5 text-center">
+        <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-0">Photo Gallery</h2>
         <button
-          className="border-none px-[10px] py-2.5 rounded-md"
+          className="border-none px-[10px] py-2 rounded-md"
           onClick={handleAddPhoto}
         >
           Add Photos
         </button>
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-[15px] p-[25px]">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-[10px] sm:gap-[15px] p-[15px] sm:p-[25px]">
         {photos.length === 0 && <p>No photos found.</p>}
         {photos.slice(0, visibleCount).map((photo, index) => (
           <div
@@ -1397,7 +1395,7 @@ const PhotosTab = ({photos}) => {
 
       {visibleCount < photos.length && (
         <div className="text-center mt-[30px] pb-5">
-          <button className="bg-pink-500 text-white border-none px-[30px] py-3 rounded-[25px] font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_12px_rgba(236,72,153,0.2)] hover:bg-pink-600 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(236,72,153,0.3)]" onClick={handleLoadMore}>
+          <button className="bg-pink-500 text-white border-none px-[20px] sm:px-[30px] py-3 rounded-[25px] font-semibold cursor-pointer transition-all duration-300 shadow-[0_4px_12px_rgba(236,72,153,0.2)] hover:bg-pink-600 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(236,72,153,0.3)]" onClick={handleLoadMore}>
             Load More
           </button>
         </div>
@@ -1410,41 +1408,41 @@ const PhotosTab = ({photos}) => {
 const SearchWidget = () => {
   return (
     <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-      <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[15px_20px]">
+      <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[10px_15px] sm:p-[15px_20px]">
         <h5 className="text-base font-semibold mb-0">Find People</h5>
       </div>
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         <p className="text-gray-500 text-sm mb-5 leading-relaxed">
           Connect with people who share your interests
         </p>
-        <form className="flex flex-col gap-3">
-          <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 text-sm outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
+        <form className="flex flex-col gap-3 text-sm">
+          <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
             <option value="">I am a</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
           </select>
-          <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 text-sm outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
+          <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
             <option value="">Looking for</option>
             <option value="friends">Friends</option>
             <option value="networking">Networking</option>
             <option value="dating">Dating</option>
           </select>
           <div className="grid grid-cols-2 gap-[10px]">
-            <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 text-sm outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
+            <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
               <option value="">Age from</option>
               <option value="18">18</option>
               <option value="25">25</option>
               <option value="30">30</option>
             </select>
-            <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 text-sm outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
+            <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
               <option value="">Age to</option>
               <option value="35">35</option>
               <option value="40">40</option>
               <option value="50">50</option>
             </select>
           </div>
-          <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 text-sm outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
+          <select className="w-full p-[10px] border border-gray-300 rounded-lg bg-white text-gray-700 outline-none focus:border-pink-500 focus:shadow-[0_0_0_3px_rgba(236,72,153,0.1)]">
             <option value="">Location</option>
             <option value="us">United States</option>
             <option value="uk">United Kingdom</option>
@@ -1464,10 +1462,10 @@ const YouMayLikeWidget = () => {
 
   return (
     <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-      <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[15px_20px]">
+      <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[10px_15px] sm:p-[15px_20px]">
         <h5 className="text-base font-semibold mb-0">People You May Know</h5>
       </div>
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         <div className="grid grid-cols-3 gap-[10px]">
           {suggestions.map((person, i) => (
             <div key={i} className="aspect-square rounded-lg overflow-hidden relative">
@@ -1486,10 +1484,10 @@ const YouMayLikeWidget = () => {
 const JoinFriendsWidget = () => {
   return (
     <div className="bg-white rounded-[15px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100">
-      <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[15px_20px]">
+      <div className="bg-gradient-to-r from-pink-500 to-pink-300 text-white p-[10px_15px] sm:p-[15px_20px]">
         <h5 className="text-base font-semibold mb-0">Join The Friends</h5>
       </div>
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         <div className="mb-5 pb-5 border-b border-gray-100 last:border-b-0 last:mb-0 last:pb-0">
           <h6 className="text-base font-semibold text-gray-800 mb-2">Active Friends A1</h6>
           <p className="text-gray-500 text-sm mb-3 leading-relaxed">
@@ -1637,7 +1635,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-200 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-200 font-sans pt-4 sm:pt-6">
       <ProfileHeader
         userData={userData}
         onAddFriend={() => setShowAddFriends(true)}
@@ -1649,32 +1647,32 @@ const ProfilePage = () => {
       />
 
       {/* Profile Navigation */}
-      <div className="bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] sticky top-0 ]">
-        <div className="max-w-[1200px] mx-auto p-[0_20px]">
-          <nav className="flex gap-0 cursor-pointer">
+      <div className="bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] sticky top-0 z-10">
+        <div className="max-w-[1200px] mx-auto p-[0_10px] sm:p-[0_20px]">
+          <nav className="flex flex-wrap gap-2 sm:gap-0 cursor-pointer items-center">
             <button
-              className={`px-6 py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "activity" ? "text-pink-500" : ""}`}
+              className={`px-4 py-3 sm:px-6 sm:py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "activity" ? "text-pink-500" : ""}`}
               onClick={() => setActiveTab("activity")}
             >
               Activity
               {activeTab === "activity" && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-pink-500 to-pink-300 rounded-t-[2px]"></div>}
             </button>
             <button
-              className={`px-6 py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "profile" ? "text-pink-500" : ""}`}
+              className={`px-4 py-3 sm:px-6 sm:py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "profile" ? "text-pink-500" : ""}`}
               onClick={() => setActiveTab("profile")}
             >
               Profile
               {activeTab === "profile" && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-pink-500 to-pink-300 rounded-t-[2px]"></div>}
             </button>
             <button
-              className={`px-6 py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "friends" ? "text-pink-500" : ""}`}
+              className={`px-4 py-3 sm:px-6 sm:py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "friends" ? "text-pink-500" : ""}`}
               onClick={() => setActiveTab("friends")}
             >
               Friends <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full min-w-[20px] text-center">{totalFriends}</span>
               {activeTab === "friends" && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-pink-500 to-pink-300 rounded-t-[2px]"></div>}
             </button>
             <button
-              className={`px-6 py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "photos" ? "text-pink-500" : ""}`}
+              className={`px-4 py-3 sm:px-6 sm:py-4 bg-none border-none cursor-pointer font-medium text-gray-500 relative transition-all duration-300 flex items-center gap-2 hover:text-pink-500 hover:bg-pink-50 ${activeTab === "photos" ? "text-pink-500" : ""}`}
               onClick={() => setActiveTab("photos")}
             >
               Photos
@@ -1697,7 +1695,7 @@ const ProfilePage = () => {
               {isDropdownOpen && (
                 <div
                   id="global-dropdown"
-                  className="absolute top-[44px] right-2 min-w-[150px] bg-white/60 backdrop-blur-[10px] rounded-[10px] shadow-[0_8px_24px_rgba(19,23,28,0.12)] z-40 overflow-hidden transform-origin-top-right animate-pop font-semibold"
+                  className="absolute top-[44px] right-2 min-w-[150px] bg-white/60 backdrop-blur-[10px] rounded-[10px] shadow-[0_8px_24px_rgba(19,23,28,0.12)] z-40 overflow-hidden transform-origin-top-right animate-pop"
                   role="menu"
                 >
                   <button
@@ -1716,91 +1714,90 @@ const ProfilePage = () => {
             </div>
 
             {/* Off-canvas Blocked List */}
-            {/* Off-canvas Blocked List */}
-{isBlockedListOpen && (
-  <>
-    {/* Overlay */}
-    <div
-      className="fixed inset-0 bg-black/50 z-[200] backdrop-blur-sm transition-opacity duration-300"
-      onClick={closeBlockedList}
-    />
+            {isBlockedListOpen && (
+              <>
+                {/* Overlay */}
+                <div
+                  className="fixed inset-0 bg-black/50 z-[200] backdrop-blur-sm transition-opacity duration-300"
+                  onClick={closeBlockedList}
+                />
 
-    {/* Sidebar */}
-    <div className="fixed top-16 right-0 w-96 h-[calc(100vh-4rem)] bg-white shadow-2xl z-[300] overflow-hidden transition-transform duration-300">
-      
-      {/* Header */}
-      <div className="sticky top-0 bg-gradient-to-r from-pink-500 to-pink-400 text-white p-5 flex justify-between items-center shadow-lg ">
-        <h2 className="text-xl font-bold">Blocked Users</h2>
-        <button
-          onClick={closeBlockedList}
-          className="p-2 rounded-full hover:bg-white/20 transition-colors active:scale-95"
-        >
-          &times;
-        </button>
-      </div>
+                {/* Sidebar */}
+                <div className="fixed top-16 right-0 w-[90%] sm:w-96 h-[calc(100vh-4rem)] bg-white shadow-2xl z-[300] overflow-hidden transition-transform duration-300">
+                  
+                  {/* Header */}
+                  <div className="sticky top-0 bg-gradient-to-r from-pink-500 to-pink-400 text-white p-4 sm:p-5 flex justify-between items-center shadow-lg ">
+                    <h2 className="text-lg sm:text-xl font-bold">Blocked Users</h2>
+                    <button
+                      onClick={closeBlockedList}
+                      className="p-2 rounded-full hover:bg-white/20 transition-colors active:scale-95"
+                    >
+                      &times;
+                    </button>
+                  </div>
 
-      {/* Content */}
-      <div className="overflow-y-auto h-[calc(100%-5rem)] p-4">
-        {isLoadingBlocked ? (
-          <p className="text-center text-gray-500">Loading...</p>
-        ) : !blockedUsersData?.blockedUsers || blockedUsersData.blockedUsers.length === 0 ? (
-          <div className="text-center py-16">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="mx-auto h-14 w-14 text-gray-300 mb-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728" />
-            </svg>
-            <p className="text-gray-500 font-medium">No blocked users</p>
-            <p className="text-gray-400 text-sm mt-2">Users you block will appear here</p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {blockedUsersData.blockedUsers.map((user) => (
-              <div
-                key={user.id}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all duration-200 border border-gray-100"
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={user.profilePic
-                      ? `https://yourcdn.com/${user.profilePic}`
-                      : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
-                    alt={user.email || "User"}
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
-                    }}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
-                  />
-                  <div>
-                    <p className="font-medium text-gray-800">{user.email}</p>
-                    <p className="text-xs text-gray-500">Blocked user</p>
+                  {/* Content */}
+                  <div className="overflow-y-auto h-[calc(100%-5rem)] p-4">
+                    {isLoadingBlocked ? (
+                      <p className="text-center text-gray-500">Loading...</p>
+                    ) : !blockedUsersData?.blockedUsers || blockedUsersData.blockedUsers.length === 0 ? (
+                      <div className="text-center py-16">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="mx-auto h-14 w-14 text-gray-300 mb-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728" />
+                        </svg>
+                        <p className="text-gray-500 font-medium">No blocked users</p>
+                        <p className="text-gray-400 text-sm mt-2">Users you block will appear here</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {blockedUsersData.blockedUsers.map((user) => (
+                          <div
+                            key={user.id}
+                            className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200 border border-gray-100"
+                          >
+                            <div className="flex items-center gap-3">
+                              <img
+                                src={user.profilePic
+                                  ? `https://yourcdn.com/${user.profilePic}`
+                                  : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}
+                                alt={user.email || "User"}
+                                onError={(e) => {
+                                  e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+                                }}
+                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-gray-200"
+                              />
+                              <div>
+                                <p className="font-medium text-gray-800 text-sm sm:text-base">{user.email}</p>
+                                <p className="text-xs text-gray-500">Blocked user</p>
+                              </div>
+                            </div>
+                            <button
+                              className="px-3 py-1 sm:px-4 sm:py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-all duration-200 hover:shadow-md active:scale-95"
+                              onClick={async () => {
+                                try {
+                                  await blockFriend({ friendId: user.id, action: "unblock" }).unwrap();
+                                  refetchBlocked();
+                                } catch (err) {
+                                  console.error("Failed to unblock:", err);
+                                }
+                              }}
+                            >
+                              Unblock
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
-                <button
-                  className="px-4 py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-all duration-200 hover:shadow-md active:scale-95"
-                  onClick={async () => {
-                    try {
-                      await blockFriend({ friendId: user.id, action: "unblock" }).unwrap();
-                      refetchBlocked();
-                    } catch (err) {
-                      console.error("Failed to unblock:", err);
-                    }
-                  }}
-                >
-                  Unblock
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  </>
-)}
+              </>
+            )}
 
 
           </nav>
@@ -1809,7 +1806,7 @@ const ProfilePage = () => {
 
 
 
-      <div className="max-w-[1200px] mx-auto p-[30px_20px]">
+      <div className="max-w-[1200px] mx-auto p-[20px_10px] sm:p-[30px_20px] pt-8 xs:pt-10 sm:pt-12">
         {renderTabContent()}
       </div>
 
